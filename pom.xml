@@ -52,8 +52,8 @@
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v15.12.0</nodeVersion>
-							<npmVersion>7.6.3</npmVersion>
+							<nodeVersion>v10.19.0</nodeVersion>
+							<npmVersion>6.14.4</npmVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -63,6 +63,63 @@
 						</goals>
 						<configuration>
 							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm rebuild node-sass</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>rebuild node-sass</arguments>
+						</configuration>
+					</execution>
+<!--					<execution>-->
+<!--						<id>npm uninstall node-sass</id>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<arguments>uninstall node-sass -g</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--					<execution>-->
+<!--						<id>npm install node-sass</id>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<arguments>install node-sass</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+
+<!--					<execution>-->
+<!--						<id>npm install gcc</id>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<arguments>install gcc</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+
+<!--					npm uninstall node-sass -g && node cache clean && node install node-sass-->
+					<execution>
+						<id>npm types react</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install -D @types/react</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm types react-dom</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install -D @types/react-dom</arguments>
 						</configuration>
 					</execution>
 <!--                    npm install &#45;&#45;global yarn-->
