@@ -39,9 +39,9 @@ export const VideoCall = () => {
       // audio!.srcObject = mediaStream;
       // audio!.play();
 
-      const video = videoSelf.current;
-      video!.srcObject = mediaStream;
-      video!.play();
+      // const video = videoSelf.current;
+      // video!.srcObject = mediaStream;
+      // video!.play();
 
       const sp = new SimplePeer({
         trickle: false,
