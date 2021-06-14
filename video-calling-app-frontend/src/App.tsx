@@ -55,6 +55,7 @@ export const VideoCall = () => {
       sp.on("signal", (data) => webSocketConnection.send(JSON.stringify(data)));
       sp.on("connect", () => setConnectionStatus(ConnectionStatus.CONNECTED));
       sp.on("stream", (stream) => {
+        console.log("STREAM VIDEO")
         const video = videoCaller.current;
         video!.srcObject = stream;
         video!.play();
