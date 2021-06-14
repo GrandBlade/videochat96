@@ -11,7 +11,9 @@ enum ConnectionStatus {
 const webSocketConnection = new WebSocket("wss://videochat961.herokuapp.com:443/videochat");
 
 export const VideoCall = () => {
+  //const audioSelf = useRef<HTMLAudioElement | null>(null);
   const videoSelf = useRef<HTMLVideoElement | null>(null);
+  //const audioCaller = useRef<HTMLAudioElement | null>(null);
   const videoCaller = useRef<HTMLVideoElement | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus | null>(null);
   const [offerSignal, setOfferSignal] = useState<SignalData>();
@@ -21,14 +23,22 @@ export const VideoCall = () => {
     webSocketConnection.onmessage = (message: any) => {
       const payload = JSON.parse(message.data);
       if (payload?.type === "offer") {
+        console.log("I GET OFFERING")
         setOfferSignal(payload);
         setConnectionStatus(ConnectionStatus.RECEIVING);
-      } else if (payload?.type === "answer") simplePeer?.signal(payload);
+      } else if (payload?.type === "answer") {
+        console.log("I GET ANSWER")
+        simplePeer?.signal(payload);
+      }
     };
   }, [simplePeer]);
 
   const sendOrAcceptInvitation = (isInitiator: boolean, offer?: SignalData) => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then((mediaStream) => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((mediaStream) => {
+      // const audio = videoSelf.current;
+      // audio!.srcObject = mediaStream;
+      // audio!.play();
+
       const video = videoSelf.current;
       video!.srcObject = mediaStream;
       video!.play();

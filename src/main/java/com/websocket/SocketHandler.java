@@ -28,8 +28,10 @@ public class SocketHandler extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message)
             throws IOException {
+        System.out.println("HANDLING text MESSAGE: " + message.getPayload());
         for (WebSocketSession webSocketSession : sessions) {
             if (!session.equals(webSocketSession)) {
+                System.out.println("SENDING text MESSAGE TO: " + webSocketSession.toString());
                 webSocketSession.sendMessage(message);
             }
         }
