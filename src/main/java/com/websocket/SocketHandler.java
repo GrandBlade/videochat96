@@ -17,11 +17,13 @@ public class SocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
+        System.out.println("Add new session: " + session);
         sessions.add(session);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        System.out.println("Remove session, status: " + status);
         sessions.remove(session);
     }
 

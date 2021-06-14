@@ -35,16 +35,16 @@ export const VideoCall = () => {
 
   const sendOrAcceptInvitation = (isInitiator: boolean, offer?: SignalData) => {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((mediaStream) => {
-      // const audio = videoSelf.current;
+      //const audio = audioCaller.current;
       // audio!.srcObject = mediaStream;
       // audio!.play();
 
-      // const video = videoSelf.current;
-      // video!.srcObject = mediaStream;
-      // video!.play();
+      const video = videoSelf.current;
+      video!.srcObject = mediaStream;
+      video!.play();
 
       const sp = new SimplePeer({
-        trickle: false,
+        trickle: true,
         initiator: isInitiator,
         stream: mediaStream,
       });
