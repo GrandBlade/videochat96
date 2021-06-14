@@ -34,7 +34,7 @@ export const VideoCall = () => {
   }, [simplePeer]);
 
   const sendOrAcceptInvitation = (isInitiator: boolean, offer?: SignalData) => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then((mediaStream) => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((mediaStream) => {
       // const audio = videoSelf.current;
       // audio!.srcObject = mediaStream;
       // audio!.play();
@@ -66,7 +66,7 @@ export const VideoCall = () => {
   return (
     <div className="web-rtc-page">
       {connectionStatus === null && <button onClick={() => sendOrAcceptInvitation(true)}>CALL</button>}
-      {connectionStatus === ConnectionStatus.OFFERING && <div className="loader"></div>}
+      {connectionStatus === ConnectionStatus.OFFERING && <div className="loader"/>}
       {connectionStatus === ConnectionStatus.RECEIVING && (
         <button onClick={() => sendOrAcceptInvitation(false, offerSignal)}>ANSWER CALL</button>
       )}
@@ -74,6 +74,9 @@ export const VideoCall = () => {
         <video ref={videoSelf} className="video-block" />
         <video ref={videoCaller} className="video-block" />
       </div>
+      {/*<div>*/}
+      {/*  <audio ref={audioCaller}/>*/}
+      {/*</div>*/}
     </div>
   );
 };
