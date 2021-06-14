@@ -13,11 +13,12 @@ const webSocketConnection = new WebSocket("wss://videochat961.herokuapp.com:443/
 export const VideoCall = () => {
   //const audioSelf = useRef<HTMLAudioElement | null>(null);
   const videoSelf = useRef<HTMLVideoElement | null>(null);
-  //const audioCaller = useRef<HTMLAudioElement | null>(null);
+  const audioCaller = useRef<HTMLAudioElement | null>(null);
   const videoCaller = useRef<HTMLVideoElement | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus | null>(null);
   const [offerSignal, setOfferSignal] = useState<SignalData>();
   const [simplePeer, setSimplePeer] = useState<Instance>();
+  const [simplePeer1, setSimplePeer1] = useState<Instance>();
 
   useEffect(() => {
     webSocketConnection.onmessage = (message: any) => {
@@ -29,19 +30,20 @@ export const VideoCall = () => {
       } else if (payload?.type === "answer") {
         console.log("I GET ANSWER")
         simplePeer?.signal(payload);
+        simplePeer1?.signal(payload);
       }
     };
-  }, [simplePeer]);
+  }, [simplePeer, simplePeer1]);
 
   const sendOrAcceptInvitation = (isInitiator: boolean, offer?: SignalData) => {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((mediaStream) => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false }).then((mediaStream) => {
       //const audio = audioCaller.current;
       // audio!.srcObject = mediaStream;
       // audio!.play();
 
-      // const video = videoSelf.current;
-      // video!.srcObject = mediaStream;
-      // video!.play();
+      const video = videoSelf.current;
+      video!.srcObject = mediaStream;
+      video!.play();
 
       const sp = new SimplePeer({
         trickle: true,
@@ -62,6 +64,35 @@ export const VideoCall = () => {
       });
       setSimplePeer(sp);
     });
+
+    navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((mediaStream) => {
+      //const audio = audioCaller.current;
+      // audio!.srcObject = mediaStream;
+      // audio!.play();
+
+      // const video = videoSelf.current;
+      // video!.srcObject = mediaStream;
+      // video!.play();
+
+      const sp = new SimplePeer({
+        trickle: true,
+        initiator: isInitiator,
+        stream: mediaStream,
+      });
+
+      if (isInitiator) setConnectionStatus(ConnectionStatus.OFFERING);
+      else offer && sp.signal(offer);
+
+      sp.on("signal", (data) => webSocketConnection.send(JSON.stringify(data)));
+      sp.on("connect", () => setConnectionStatus(ConnectionStatus.CONNECTED));
+      sp.on("stream", (stream) => {
+        console.log("STREAM AUDIO")
+        const audio = audioCaller.current;
+        audio!.srcObject = stream;
+        audio!.play();
+      });
+      setSimplePeer1(sp);
+    });
   };
 
   return (
@@ -75,9 +106,9 @@ export const VideoCall = () => {
         <video ref={videoSelf} className="video-block" />
         <video ref={videoCaller} className="video-block" />
       </div>
-      {/*<div>*/}
-      {/*  <audio ref={audioCaller}/>*/}
-      {/*</div>*/}
+      <div>
+        <audio ref={audioCaller}/>
+      </div>
     </div>
   );
 };
