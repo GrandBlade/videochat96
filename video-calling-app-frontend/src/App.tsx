@@ -8,7 +8,7 @@ enum ConnectionStatus {
   CONNECTED,
 }
 
-const webSocketConnection = new WebSocket(window.location.host);
+const webSocketConnection = new WebSocket(window.location.host + "/videochat");
 
 export const VideoCall = () => {
   const videoSelf = useRef<HTMLVideoElement | null>(null);
